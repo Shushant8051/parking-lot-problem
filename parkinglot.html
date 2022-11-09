@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//rough flow of parking lot
+ 
+// Entrance gate ----> parking spot ------>  exit
+   
+//object: vehicle {vehicle no. , vehicle type(2 wheeler , 4 wheeler)} , ticket{entry time , parking spot , prices } , entrance gate{find parking space, update parking space} , parking spot{id, vehicle type,} , exit gate{cost calculation , payment , update parking lot}  
+
+
+//requirement : parking sopt should we nearest to entrance ,no. of entrance (1 in , 1 out) , different type of spot (2 wheeler , 4 wheeler compact, 4 wheeler large , 3 wheeler ) , hourly based charge or minute based charge or mix ,  
+
+
+class ParkingSpot{
+    constructor(id,isempty, vehicle_type,price){
+        this.id = id;
+        //? this.isempty = true
+        this.vehicle_type= vehicle_type;
+        this.price = price;
+    }
+    parkVehicle(vehicle)
+    {
+        vehicle = vehicle_type;
+        isempty = false;
+    }
+    removeVehicle()
+    {
+        vehicle = null;
+        isEmpty = true;
+
+    }
+}
+class TwoWheelerSpot extends ParkingSpot {
+    constructor(){
+       super() ;
+    }
+}
+class FourWheelerSpot extends ParkingSpot {
+    constructor(){
+       super() ;
+    }
+}
+
+class ParkingSpotManager {
+  constructor({ size: { numOfTwoWheelerSpot, numOfFourWheelerSpot } }) {
+    this.emptySpots = Array.from({ length: 2 }, (_, i) => {
+        if(this._getSizeIndex(1) === i) return Array.from({length: numOfTwoWheelerSpot}, () => (new Spot({size: 1})))
+        if(this._getSizeIndex(2) === i) return Array.from({length: numOfFourWheelerSpot}, () => (new Spot({size: 2})))
+        
+    })
+
+    this.vehicles = new Map()
+  }
+  placeVehicle(vehicle) {
+      if(this.hasVehicle(vehicle.licenseId)) throw new Error('duplicate vehicle found')
+    const sizeIndex = this._getSizeIndex(vehicle.size)
+    for (let i = sizeIndex; i < this.emptySpots.length; i++) {
+      if (this.emptySpots[i].length > 0) {
+        const spot = this.emptySpots[i].pop()
+        spot.addVehicle(vehicle)
+        this.vehicles.set(vehicle.licenseId, spot)
+        return true
+      }
+    }
+
+    return false
+  }
+
+   getSizeIndex(size) {
+    return size - 1
+  }
+
+  hasVehicle(licenseId) {
+      return this.vehicles.has(licenseId)
+  }
+
+  removeVehicle(vehicle) {
+    if (!this.hasVehicle(vehicle.licenseId)) return false
+    const spot = this.vehicles.get(vehicle)
+    spot.releaseVehicle()
+    this.vehicles.delete(vehicle)
+    this.emptySpots[this._getSizeIndex(this.spot.size)].push(spot)
+
+    return true
+  }
+}
+
+let parkingSpotManager = new ParkingSpotManager({
+    size: {
+        numOfTwoWheelerSpot: 2,
+        numOfFourWheelerSpot: 2
+    }
+})
+
+const car1 = new FourWheelerSpot('car1')
+const Bike1 = new TwoWheelerSpot('bike')
+
+
+parkingLotManager.placeVehicle(TwoWheelerSpot)
+parkingLotManager.placeVehicle(FourWheelerSpot)
+
+
+
+
+
+
+    </script>
+</body>
+</html>
